@@ -32,20 +32,17 @@ The following options are available to control the simulation:
   --elevator-speed - how long an elevator takes to travel one floor, 
                      in seconds (default .25)
 
-  --elevator-wait  - how long an elevator waits at a floor for passeng
-+ers,
+  --elevator-wait  - how long an elevator waits at a floor for passengers,
                      in seconds (default .5)
 
-  --people-freq    - how many people are created per second (default 2
-+)
+  --people-freq    - how many people are created per second (default 2)
 
-  --people-wait    - how long a person spends on their destination flo
-+or, 
+  --people-wait    - how long a person spends on their destination floor, 
                      in seconds (default 5)
 
 =head1 AUTHOR
 
-Sam Tregar <sam@tregar.com>
+Kobe Lin 
 
 =head1 SEE ALSO
 
@@ -95,18 +92,18 @@ exit 0;
 
 
 
-
 # poisson random to find time
 sub Poisson_random {
+     ($lambda) = @_ ;
     my $property = rand ; 
         # random a property 0 to 1
     if( $property == 0){
-        $Result = 0;
+        $poisson_time = 0;
     }
     elsif ($property > 0){
-     poisson_time = log( 1-$property)/ -lambda ;
+     $poisson_time = log( 1-$property)/ -lambda ;
     }
-  return poisson_time;
+  return $poisson_time;
 } 
 
 
@@ -146,7 +143,7 @@ sub init_people {
                                    dest => int(rand($NUM_FLOORS - 2)) + 1);
 
         # pause if we've launched enough people this second
-        sleep $Poisson_random unless $_ % $PEOPLE_FREQ;
+        sleep &Poisson_random(0.6) unless $_ % $PEOPLE_FREQ;
     }
 }
 
